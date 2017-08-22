@@ -1,32 +1,33 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import cgi
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from database_setup import Base, Restaurant, MenuItem
+
+engine = create_engine('sqlite:///restaurantmenu.db')
+Base.metadata.bind=engine
+dbsession = sessionmaker(bind = engine)
+session = dbsession()
+
 
 class webServerHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         try:
-            if self.path.endswith("/hello"):
+            if self.path.endswith("/restaurants"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
                 output = ""
                 output += "<html><body>"
-                output += "<h1>Hello!</h1>"
-                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name="message" type="text" ><input type="submit" value="Submit"> </form>'''
-                output += "</body></html>"
-                self.wfile.write(output)
-                print output
-                return
+                
+                restaurants = session.query(Restaurant).all()
+                for restaurant in restaurants:
+                    output += "<h1>"
+                    output += restaurant.name
+                    output += "</h1>"
 
-            if self.path.endswith("/hola"):
-                self.send_response(200)
-                self.send_header('Content-type', 'text/html')
-                self.end_headers()
-                output = ""
-                output += "<html><body>"
-                output += "<h1>&#161 Hola !</h1>"
-                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name="message" type="text" ><input type="submit" value="Submit"> </form>'''
                 output += "</body></html>"
                 self.wfile.write(output)
                 print output
