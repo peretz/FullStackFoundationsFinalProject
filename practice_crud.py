@@ -7,6 +7,7 @@ Base.metadata.bind=engine
 dbsession = sessionmaker(bind = engine)
 session = dbsession()
 
+
 # CREATE restaurant and menuitem objects for database
 
 # myfirstrestaurant = restaurant(name = "pizza palace")
@@ -17,6 +18,7 @@ session = dbsession()
 # session.add(cheesepizza)
 # session.commit()
 
+
 # READ restaurant and menuitem 
 
 # firstresult = session.query(restaurant).first()
@@ -26,6 +28,7 @@ session = dbsession()
 # for item in items:
 #         print item.name
 # 
+
 
 # UPDATE menuitem
 
@@ -45,6 +48,7 @@ def printMenuItem(itemName):
 # session.commit() 
 # 
 # printMenuItem('Veggie Burger')
+
 
 # DELETE menuitem
 
