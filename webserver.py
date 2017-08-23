@@ -24,7 +24,7 @@ class webServerHandler(BaseHTTPRequestHandler):
             output += "<a href=/delete>Delete</a><br>"
             output += "<br></p>"
 
-        output += "<p><a href=/newrestaurant>Make a New Restaurant Here.</a></p>"
+        output += "<p><a href=/restaurants/new>Make a New Restaurant Here.</a></p>"
         output += "</body></html>"
         self.wfile.write(output)
         print output
@@ -39,7 +39,7 @@ class webServerHandler(BaseHTTPRequestHandler):
                 self.__printAllRestaurants()
                 return
 
-            if self.path.endswith("/newrestaurant"):
+            if self.path.endswith("/restaurants/new"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
