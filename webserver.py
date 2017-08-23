@@ -20,8 +20,8 @@ class webServerHandler(BaseHTTPRequestHandler):
         restaurants = session.query(Restaurant).all()
         for restaurant in restaurants:
             output += "<p>" + restaurant.name + "<br>"
-            output += "<a href=/edit>Edit</a><br>"
-            output += "<a href=/delete>Delete</a><br>"
+            output += "<a href=restaurant/" + str(restaurant.id) + "/edit>Edit</a><br>"
+            output += "<a href=restaurant/" + str(restaurant.id) + "/delete>Delete</a><br>"
             output += "<br></p>"
 
         output += "<p><a href=/restaurants/new>Make a New Restaurant Here.</a></p>"
@@ -39,20 +39,39 @@ class webServerHandler(BaseHTTPRequestHandler):
                 self.__printAllRestaurants()
                 return
 
+
             if self.path.endswith("/restaurants/new"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
+
                 output = ""
                 output += "<html><body>"
                 output += "<h1>Make a New Restaurant</h1>"
-
                 output += '''<form method='POST' enctype='multipart/form-data' action='/restaurants'><input name="message" type="text" ><input type="submit" value="Create"> </form>'''
-                
                 output += "</body></html>"
                 self.wfile.write(output)
                 print output
                 return
+
+
+            if self.path.endswith("/edit"):
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+
+                # Recover restaurant ID from URL
+                restaurantID = int(self.path.split("restaurant/")[1].split("/edit")[0])
+                restaurant = session.query(Restaurant).filter_by(id= restaurantID)[0]
+                output = ""
+                output += "<html><body>"
+                output += "<h1>" + restaurant.name + "</h1>"
+                output += '''<form method='POST' enctype='multipart/form-data' action='/restaurants'><input name="message" type="text" ><input type="submit" value="Rename"> </form>'''
+                output += "</body></html>"
+                self.wfile.write(output)
+                print output
+                return
+
 
         except IOError:
             self.send_error(404, 'File Not Found: %s' % self.path)
