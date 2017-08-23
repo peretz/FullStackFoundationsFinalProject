@@ -13,26 +13,30 @@ session = dbsession()
 
 class webServerHandler(BaseHTTPRequestHandler):
 
+    def __printAllRestaurants(self):
+        output = ""
+        output += "<html><body>"
+        
+        restaurants = session.query(Restaurant).all()
+        for restaurant in restaurants:
+            output += "<p>" + restaurant.name + "<br>"
+            output += "<a href=/edit>Edit</a><br>"
+            output += "<a href=/delete>Delete</a><br>"
+            output += "<br></p>"
+
+        output += "<p><a href=/newrestaurant>Make a New Restaurant Here.</a></p>"
+        output += "</body></html>"
+        self.wfile.write(output)
+        print output
+
+        
     def do_GET(self):
         try:
             if self.path.endswith("/restaurants"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
-                output = ""
-                output += "<html><body>"
-                
-                restaurants = session.query(Restaurant).all()
-                for restaurant in restaurants:
-                    output += "<p>" + restaurant.name + "<br>"
-                    output += "<a href=/edit>Edit</a><br>"
-                    output += "<a href=/delete>Delete</a><br>"
-                    output += "<br></p>"
-
-                output += "<p><a href=/newrestaurant>Make a New Restaurant Here.</a></p>"
-                output += "</body></html>"
-                self.wfile.write(output)
-                print output
+                self.__printAllRestaurants()
                 return
 
             if self.path.endswith("/newrestaurant"):
@@ -67,20 +71,7 @@ class webServerHandler(BaseHTTPRequestHandler):
                 session.add(newRestaurant)
                 session.commit()
 
-            output = ""
-            output += "<html><body>"
-            
-            restaurants = session.query(Restaurant).all()
-            for restaurant in restaurants:
-                output += "<p>" + restaurant.name + "<br>"
-                output += "<a href=/edit>Edit</a><br>"
-                output += "<a href=/delete>Delete</a><br>"
-                output += "<br></p>"
-
-            output += "<p><a href=/newrestaurant>Make a New Restaurant Here.</a></p>"
-            output += "</body></html>"
-            self.wfile.write(output)
-            print output
+            self.__printAllRestaurants()
         except:
             pass
 
