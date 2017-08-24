@@ -29,20 +29,22 @@ class webServerHandler(BaseHTTPRequestHandler):
         self.wfile.write(output)
 
         
+    def __getSuccess(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+
+
     def do_GET(self):
         try:
             if self.path.endswith("/restaurants"):
-                self.send_response(200)
-                self.send_header('Content-type', 'text/html')
-                self.end_headers()
+                self.__getSuccess()
                 self.__printAllRestaurants()
                 return
 
 
             if self.path.endswith("/restaurants/new"):
-                self.send_response(200)
-                self.send_header('Content-type', 'text/html')
-                self.end_headers()
+                self.__getSuccess()
 
                 output = ""
                 output += "<html><body>"
@@ -57,9 +59,7 @@ class webServerHandler(BaseHTTPRequestHandler):
 
 
             if self.path.endswith("/edit"):
-                self.send_response(200)
-                self.send_header('Content-type', 'text/html')
-                self.end_headers()
+                self.__getSuccess()
 
                 # Recover restaurant ID from URL
                 restaurantID = self.path.split("restaurant/")[1].split("/edit")[0]
@@ -98,6 +98,13 @@ class webServerHandler(BaseHTTPRequestHandler):
             self.send_error(404, 'File Not Found: %s' % self.path)
 
 
+    def __postSuccess(self):
+        self.send_response(301)
+        self.send_header('Content-type', 'text/html')
+        self.send_header('Location', '/restaurants')
+        self.end_headers()
+
+
     def do_POST(self):
         try:
             if self.path.endswith("/restaurants/new"):
@@ -108,6 +115,8 @@ class webServerHandler(BaseHTTPRequestHandler):
                     newRestaurant = Restaurant(name = newRestaurantName[0])
                     session.add(newRestaurant)
                     session.commit()
+
+                    self.__postSuccess()
 
             elif self.path.endswith("/edit"):
                 ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
@@ -120,16 +129,15 @@ class webServerHandler(BaseHTTPRequestHandler):
                     session.add(restaurant)
                     session.commit()
 
+                    self.__postSuccess()
+
             elif self.path.endswith("/delete"):
                 restaurantID = self.path.split("restaurant/")[1].split("/delete")[0]
                 restaurant = session.query(Restaurant).filter_by(id= restaurantID).one()
                 session.delete(restaurant)
                 session.commit()
 
-            self.send_response(301)
-            self.send_header('Content-type', 'text/html')
-            self.send_header('Location', '/restaurants')
-            self.end_headers()
+                self.__postSuccess()
 
         except:
             pass
