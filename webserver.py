@@ -27,7 +27,6 @@ class webServerHandler(BaseHTTPRequestHandler):
         output += "<p><a href=/restaurants/new>Make a New Restaurant Here.</a></p>"
         output += "</body></html>"
         self.wfile.write(output)
-#        print output
 
         
     def do_GET(self):
@@ -110,11 +109,6 @@ class webServerHandler(BaseHTTPRequestHandler):
                     session.add(newRestaurant)
                     session.commit()
 
-                    self.send_response(301)
-                    self.send_header('Content-type', 'text/html')
-                    self.send_header('Location', '/restaurants')
-                    self.end_headers()
-
             elif self.path.endswith("/edit"):
                 ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
                 if ctype == 'multipart/form-data':
@@ -126,21 +120,16 @@ class webServerHandler(BaseHTTPRequestHandler):
                     session.add(restaurant)
                     session.commit()
 
-                    self.send_response(301)
-                    self.send_header('Content-type', 'text/html')
-                    self.send_header('Location', '/restaurants')
-                    self.end_headers()
-
             elif self.path.endswith("/delete"):
                 restaurantID = self.path.split("restaurant/")[1].split("/delete")[0]
                 restaurant = session.query(Restaurant).filter_by(id= restaurantID).one()
                 session.delete(restaurant)
                 session.commit()
 
-                self.send_response(301)
-                self.send_header('Content-type', 'text/html')
-                self.send_header('Location', '/restaurants')
-                self.end_headers()
+            self.send_response(301)
+            self.send_header('Content-type', 'text/html')
+            self.send_header('Location', '/restaurants')
+            self.end_headers()
 
         except:
             pass
