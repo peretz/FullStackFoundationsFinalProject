@@ -13,7 +13,7 @@ session = DBsession()
 
 
 #Making an API Endpoint (GET request)
-@app.route('/restaurants/<int:restaurant_id>/JSON')
+@app.route('/restaurants/<int:restaurant_id>/JSON/')
 def restaurantMenuJSON(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     items = session.query(MenuItem).filter_by(restaurant_id=restaurant.id)
@@ -38,6 +38,13 @@ def newMenuItem(restaurant_id):
     else:
         return render_template('newMenuItem.html', restaurant_id=restaurant_id)
     
+
+@app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/JSON/')
+def restaurantMenuItemJson(restaurant_id, menu_id):
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    menuItem = session.query(MenuItem).filter_by(id=menu_id).one()
+    return jsonify(MenuItem=menuItem.serialize)
+
 
 @app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/edit/', methods=['POST', 'GET'])
 def editMenuItem(restaurant_id, menu_id):
