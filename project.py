@@ -29,22 +29,22 @@ def restaurantMenuItemJson(restaurant_id, menu_id):
 @app.route('/')
 @app.route('/restaurants/')
 def restaurants():
-    # Shows all restaurants
+    return "/restaurants/"
 
 
 @app.route('/restaurant/<int:restaurant_id>/new/', methods=['POST', 'GET'])
 def newRestaurant():
-    # Adds a new restaurant to the database.
+    return "Adds a new restaurant to the database."
 
 
 @app.route('/restaurant/<int:restaurant_id>/edit/', methods=['POST', 'GET'])
 def editRestaurant(restaurant_id):
-    # Edits an existing restaurant in the database.
+    return "Edits an existing restaurant in the database."
 
 
 @app.route('/restaurant/<int:restaurant_id>/delete/', methods=['POST', 'GET'])
 def deleteRestaurant(restaurant_id):
-    # Deletes an existing restaurant in the database.
+    return "Deletes an existing restaurant in the database."
 
 
 @app.route('/restaurant/<int:restaurant_id>/')
