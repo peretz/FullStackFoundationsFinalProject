@@ -45,6 +45,7 @@ def newRestaurant():
         newRestaurant = Restaurant(name=request.form['name'])
         session.add(newRestaurant)
         session.commit()
+        flash("Created new restaurant!")
         return redirect(url_for('restaurants'))
     else:
         return render_template('newRestaurant.html')
@@ -57,6 +58,7 @@ def editRestaurant(restaurant_id):
         restaurant.name = request.form['name']
         session.add(restaurant)
         session.commit()
+        flash("Restaurant edited!")
         return redirect(url_for('restaurants'))
     else:
         return render_template('editRestaurant.html', restaurant=restaurant)
@@ -68,6 +70,7 @@ def deleteRestaurant(restaurant_id):
     if request.method == 'POST':
         session.delete(restaurant)
         session.commit()
+        flash("Restaurant deleted!")
         return redirect(url_for('restaurants'))
     else:
         return render_template('deleteRestaurant.html', restaurant=restaurant)
