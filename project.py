@@ -11,6 +11,9 @@ Base.metadata.bind = engine
 DBsession = sessionmaker(bind=engine)
 session = DBsession()
 
+fake_restaurant = {'name': 'The CRUDdy Crab', 'id': '1'}
+fake_restaurants = [{'name': 'The CRUDdy Crab', 'id': '1'}, {'name':'Blue Burgers', 'id':'2'},{'name':'Taco Hut', 'id':'3'}]
+
 
 #API Endpoints (GET request)
 @app.route('/restaurants/<int:restaurant_id>/JSON/')
@@ -29,22 +32,31 @@ def restaurantMenuItemJson(restaurant_id, menu_id):
 @app.route('/')
 @app.route('/restaurants/')
 def restaurants():
-    return "/restaurants/"
+    return render_template('restaurants.html', restaurants=fake_restaurants)
 
 
-@app.route('/restaurant/<int:restaurant_id>/new/', methods=['POST', 'GET'])
+@app.route('/restaurant/new/', methods=['POST', 'GET'])
 def newRestaurant():
-    return "Adds a new restaurant to the database."
+    if request.method == 'POST':
+        return redirect(url_for('restaurants'))
+    else:
+        return render_template('newRestaurant.html')
 
 
 @app.route('/restaurant/<int:restaurant_id>/edit/', methods=['POST', 'GET'])
 def editRestaurant(restaurant_id):
-    return "Edits an existing restaurant in the database."
+    if request.method == 'POST':
+        return redirect(url_for('restaurants'))
+    else:
+        return render_template('editRestaurant.html', restaurant=fake_restaurant)
 
 
 @app.route('/restaurant/<int:restaurant_id>/delete/', methods=['POST', 'GET'])
 def deleteRestaurant(restaurant_id):
-    return "Deletes an existing restaurant in the database."
+    if request.method == 'POST':
+        return redirect(url_for('restaurants'))
+    else:
+        return render_template('deleteRestaurant.html', restaurant=fake_restaurant)
 
 
 @app.route('/restaurant/<int:restaurant_id>/')
