@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    background-color: #333333
+    font-size: 24px;
 }
 
 h1,
@@ -22,6 +22,7 @@ h1 {
 
 h2 {
     font-size: 1.2em;
+    color: 
 }
 
 p,
@@ -34,6 +35,11 @@ a {
     text-decoration: none;
     color: #ffffcc;
     font-size: .75em;
+}
+
+.container {
+    background-color: #6d2900;
+    max_width: 
 }
 
 .pane {
@@ -71,3 +77,13 @@ a {
 .flash {
     background: #cee5f5;
 }
+
+@media screen and (min-width: 650px) {
+    .container {
+        width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
