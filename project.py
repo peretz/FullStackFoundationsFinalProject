@@ -11,9 +11,6 @@ Base.metadata.bind = engine
 DBsession = sessionmaker(bind=engine)
 session = DBsession()
 
-fake_restaurant = {'name': 'The CRUDdy Crab', 'id': '1'}
-fake_restaurants = [{'name': 'The CRUDdy Crab', 'id': '1'}, {'name':'Blue Burgers', 'id':'2'},{'name':'Taco Hut', 'id':'3'}]
-
 
 #API Endpoints (GET request)
 @app.route('/restaurants/<int:restaurant_id>/JSON/')
