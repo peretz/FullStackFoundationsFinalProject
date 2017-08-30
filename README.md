@@ -13,6 +13,7 @@ which includes:
 
 In order to learn these concepts, the project implements a Restaurants and Menu management system.
 
+NOTE: For styling, we used the bootstrap framework. This is not part of this code but make styling very easy.
 ## File Structure.
 
 There are four files:
