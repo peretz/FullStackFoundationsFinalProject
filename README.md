@@ -17,10 +17,10 @@ In order to learn these concepts, the project implements a Restaurants and Menu 
 
 There are four files:
 
-*database_setup.py:* Defines the database objects using SQLAlchemy as ORM.
-*lotsofmenus.py:* Contains restaurants and menus to create in the database.
-*webserver.py:* Contains the HTTPBaseServer implementation.
-*project.py:* Contains Flask's implementation.
+* *database_setup.py:* Defines the database objects using SQLAlchemy as ORM.
+* *lotsofmenus.py:* Contains restaurants and menus to create in the database.
+* *webserver.py:* Contains the HTTPBaseServer implementation.
+* *project.py:* Contains Flask's implementation.
 
 ## Run HTTPBaseServer implementation.
 
