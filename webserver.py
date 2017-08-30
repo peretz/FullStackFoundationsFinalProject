@@ -6,8 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem
 
 engine = create_engine('sqlite:///restaurantmenu.db')
-Base.metadata.bind=engine
-dbsession = sessionmaker(bind = engine)
+Base.metadata.bind = engine
+dbsession = sessionmaker(bind=engine)
 session = dbsession()
 
 
@@ -16,24 +16,28 @@ class webServerHandler(BaseHTTPRequestHandler):
     def __printAllRestaurants(self):
         output = ""
         output += "<html><body>"
-        
+
         restaurants = session.query(Restaurant).all()
         for restaurant in restaurants:
             output += "<p>" + restaurant.name + "<br>"
-            output += "<a href=restaurant/" + str(restaurant.id) + "/edit>Edit</a><br>"
-            output += "<a href=restaurant/" + str(restaurant.id) + "/delete>Delete</a><br>"
+            output += "<a href=restaurant/" + str(restaurant.id) + "/edit>"
+            output += "Edit"
+            output += "</a><br>"
+            output += "<a href=restaurant/" + str(restaurant.id) + "/delete>"
+            output += "Delete"
+            output += "</a><br>"
             output += "<br></p>"
 
-        output += "<p><a href=/restaurants/new>Make a New Restaurant Here.</a></p>"
+        output += "<p>"
+        output += "<a href=/restaurants/new>Make a New Restaurant Here.</a>"
+        output += "</p>"
         output += "</body></html>"
         self.wfile.write(output)
 
-        
     def __getSuccess(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-
 
     def do_GET(self):
         try:
@@ -42,7 +46,6 @@ class webServerHandler(BaseHTTPRequestHandler):
                 self.__printAllRestaurants()
                 return
 
-
             if self.path.endswith("/restaurants/new"):
                 self.__getSuccess()
 
@@ -50,20 +53,20 @@ class webServerHandler(BaseHTTPRequestHandler):
                 output += "<html><body>"
                 output += "<h1>Make a New Restaurant</h1>"
                 output += "<form method='POST' enctype='multipart/form-data' action='/restaurants/new'>"
-                output += "<input name='newRestaurantName' type='text' placeholder = 'New Restaurant Name'>"
+                output += "<input name='newRestaurantName' type='text' placeholder='New Restaurant Name'>"
                 output += "<input type='submit' value='Create'>"
-                output += "</form></body></html>"
+                output += "</form>"
+                output += "</body></html>"
                 self.wfile.write(output)
                 print output
                 return
-
 
             if self.path.endswith("/edit"):
                 self.__getSuccess()
 
                 # Recover restaurant ID from URL
                 restaurantID = self.path.split("restaurant/")[1].split("/edit")[0]
-                restaurant = session.query(Restaurant).filter_by(id= restaurantID).one()
+                restaurant = session.query(Restaurant).filter_by(id=restaurantID).one()
                 output = ""
                 output += "<html><body>"
                 output += "<h1>" + restaurant.name + "</h1>"
@@ -75,7 +78,6 @@ class webServerHandler(BaseHTTPRequestHandler):
                 print output
                 return
 
-
             if self.path.endswith("/delete"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
@@ -83,7 +85,7 @@ class webServerHandler(BaseHTTPRequestHandler):
 
                 # Recover restaurant ID from URL
                 restaurantID = int(self.path.split("restaurant/")[1].split("/delete")[0])
-                restaurant = session.query(Restaurant).filter_by(id= restaurantID).one()
+                restaurant = session.query(Restaurant).filter_by(id=restaurantID).one()
                 output = ""
                 output += "<html><body>"
                 output += "<h1> Are you sure you want to delete " + restaurant.name + "</h1>"
@@ -97,13 +99,11 @@ class webServerHandler(BaseHTTPRequestHandler):
         except IOError:
             self.send_error(404, 'File Not Found: %s' % self.path)
 
-
     def __postSuccess(self):
         self.send_response(301)
         self.send_header('Content-type', 'text/html')
         self.send_header('Location', '/restaurants')
         self.end_headers()
-
 
     def do_POST(self):
         try:
@@ -112,7 +112,7 @@ class webServerHandler(BaseHTTPRequestHandler):
                 if ctype == 'multipart/form-data':
                     fields = cgi.parse_multipart(self.rfile, pdict)
                     newRestaurantName = fields.get('newRestaurantName')
-                    newRestaurant = Restaurant(name = newRestaurantName[0])
+                    newRestaurant = Restaurant(name=newRestaurantName[0])
                     session.add(newRestaurant)
                     session.commit()
 
@@ -124,7 +124,7 @@ class webServerHandler(BaseHTTPRequestHandler):
                     fields = cgi.parse_multipart(self.rfile, pdict)
                     newRestaurantName = fields.get('newRestaurantName')
                     restaurantID = self.path.split("restaurant/")[1].split("/edit")[0]
-                    restaurant = session.query(Restaurant).filter_by(id= restaurantID).one()
+                    restaurant = session.query(Restaurant).filter_by(id=restaurantID).one()
                     restaurant.name = newRestaurantName[0]
                     session.add(restaurant)
                     session.commit()
@@ -133,7 +133,7 @@ class webServerHandler(BaseHTTPRequestHandler):
 
             elif self.path.endswith("/delete"):
                 restaurantID = self.path.split("restaurant/")[1].split("/delete")[0]
-                restaurant = session.query(Restaurant).filter_by(id= restaurantID).one()
+                restaurant = session.query(Restaurant).filter_by(id=restaurantID).one()
                 session.delete(restaurant)
                 session.commit()
 
@@ -155,4 +155,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
