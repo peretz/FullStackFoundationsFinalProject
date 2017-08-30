@@ -12,7 +12,7 @@ DBsession = sessionmaker(bind=engine)
 session = DBsession()
 
 
-#API Endpoints (GET request)
+# API Endpoints (GET request)
 @app.route('/restaurants/JSON/')
 def restaurantsJSON():
     restaurants = session.query(Restaurant).all()
@@ -94,7 +94,7 @@ def newMenuItem(restaurant_id):
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
         return render_template('newMenuItem.html', restaurant_id=restaurant_id)
-    
+
 
 @app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/edit/', methods=['POST', 'GET'])
 def editMenuItem(restaurant_id, menu_id):
@@ -110,7 +110,7 @@ def editMenuItem(restaurant_id, menu_id):
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
         return render_template('editMenuItem.html', restaurant_id=restaurant_id, menuItem=menuItem)
-        
+
 
 @app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/delete/', methods=['POST', 'GET'])
 def deleteMenuItem(restaurant_id, menu_id):
