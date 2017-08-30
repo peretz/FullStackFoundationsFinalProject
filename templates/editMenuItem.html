@@ -1,15 +1,22 @@
 <html>
     <head>
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel=stylesheet type="text/css" href="/static/css/bootstrap.min.css">
+        <link rel=stylesheet type="text/css" href="/static/css/styles.css">
     </head>
 
     <body>
-        <div class='pane'>
-            <h1>Edit Menu Item </h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>Edit Menu Item </h1>
+                </div>
+            </div>
              
+            <br>
             <form action="{{url_for('editMenuItem', restaurant_id=restaurant_id, menu_id=menuItem.id) }}" method='POST'>
-
-
                 <dl>
                     <dt>Name:</dt>
                         <dd><input type ='text' size='30' name='name' placeholder = '{{menuItem.name }}'></dd>
@@ -43,13 +50,10 @@
                     {% else %}
                         <dd><input type ='radio' name='course' value='Beverage'>Beverage</dd>
                     {% endif %}
-                                                                                                                                                            
-                                                                                                                                                            
                 </dl>
 
                 <input type='submit' value='Edit'>
                 <a href="{{url_for('restaurantMenu', restaurant_id=restaurant_id)}}">Cancel</a>
-
             </form>
         </div>
     </body>

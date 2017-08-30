@@ -5,8 +5,7 @@ body {
 
 h1,
 h2,
-h3,
-h4 {
+li {
     color: #ffffff;
 }
 
@@ -22,60 +21,50 @@ h1 {
 
 h2 {
     font-size: 1.2em;
-    color: 
 }
 
 p,
 dd,
 dt {
-    color: #cccccc;
+    color: #000000;
 }
 
 a {
     text-decoration: none;
     color: #ffffcc;
+}
+
+a,
+li {
     font-size: .75em;
+}
+
+input {
+    background-color: #ffffff
 }
 
 .container {
     background-color: #6d2900;
-    max_width: 
-}
-
-.pane {
-    position: absolute;
-    left: 25%;
-    border: 2px solid;
-    border-radius: 25px;
-    padding: 5px;
-    margin: 5px;
-    border-color: #999999;
-    background-color: #333333
-}
-
-.header {
-    left: 50%;
-    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .name {
     width: 50%;
     display: inline-block;
     float: left;
+    color: #000000;
 }
 
-.description {}
+.description {
+    color: #000000;
+}
 
 .price {
     text-align: right;
     width: 50%;
     float: right;
-}
-
-.editdeletepane {}
-
-.flash {
-    background: #cee5f5;
+    color: #000000;
 }
 
 @media screen and (min-width: 650px) {

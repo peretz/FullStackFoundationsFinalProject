@@ -1,45 +1,61 @@
 <html>
     <head>
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel=stylesheet type="text/css" href="/static/css/bootstrap.min.css">
+        <link rel=stylesheet type="text/css" href="/static/css/styles.css">
     </head>
 
     <body>
-        <div class='pane'>
-            <div class='header'>
-            <h1>{{restaurant.name}}</h1>
-        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>{{restaurant.name}}</h1>
+                    </br>
+                </div>
+            </div>
 
-        <a href={{url_for('newMenuItem', restaurant_id=restaurant.id)}}>Create New Item</a>
-        </br></br>
+            <div class="row">
+                <div class="col-xs-12">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <ul>
+                            {% for message in messages %}
+                                <li><strong> {{message}} </strong> </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
 
-        <div class='flash'>
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul>
-                    {% for message in messages %}
-                        <li><strong> {{message}} </strong> </li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-        </div>
+                    <a href={{url_for('newMenuItem', restaurant_id=restaurant.id)}}>Create New Item</a>
+                    </br></br>
+                </div>
+            </div>
 
+            {% for i in items %}
+                <div class="row">
+                    <div class="col-xs-9">
+                        <span class='name'>{{i.name}}</span>
+                    </div>
+                    <div class="col-xs-3 text-right">
+                        <span class='price'>{{i.price}}</span>
+                    </div>
+                </div>
 
-        {% for i in items %}
-        <div>
-            <span class='name'><p>{{i.name}}</p></span>
-            <span class='price'><p> {{i.price}}</p></span>
-        </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span class='description'>{{i.description}}</span>
+                    </div>
+                </div>
 
-        <div class='description'>
-            <p>{{i.description}}</p>
-        </div>
-
-        <div class='editdeletepane'>
-            <a href={{url_for('editMenuItem', restaurant_id=restaurant.id, menu_id= i.id)}}>Edit</a>
-            <a href={{url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id= i.id)}}>Delete</a>
-        </div>
-        </br></br>
-        {% endfor %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href={{url_for('editMenuItem', restaurant_id=restaurant.id, menu_id= i.id)}}>Edit</a>
+                        <a href={{url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id= i.id)}}>Delete</a>
+                    </div>
+                </div>
+                </br>
+            {% endfor %}
     </body>
 </html>

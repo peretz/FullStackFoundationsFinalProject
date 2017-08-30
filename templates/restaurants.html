@@ -18,9 +18,6 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <a href={{url_for('newRestaurant')}}>Create New Restaurant</a>
-                    <br>
-                    <br>
                     {% with messages = get_flashed_messages() %}
                         {% if messages %}
                             <ul>
@@ -30,6 +27,10 @@
                             </ul>
                         {% endif %}
                     {% endwith %}
+
+                    <a href={{url_for('newRestaurant')}}>Create New Restaurant</a>
+                    <br>
+                    <br>
                 </div>
             </div>
 
